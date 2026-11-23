@@ -1,0 +1,35 @@
+# Bereinigte Abhaengigkeiten fuer Inferenz unter Windows (Python 3.8, NVIDIA-GPU).
+# Abgeleitet aus den Imports in VidSketch/ und inference/ sowie aus requirements.txt
+# (die Originaldatei ist ein Linux-Conda-Export und laesst sich mit pip nicht installieren).
+#
+# Installation (im Ordner VidSketch, in der aktivierten Conda-Umgebung):
+#   pip install -r requirements-windows.txt
+
+# PyTorch mit CUDA 12.1 (der PyPI-Build fuer Windows ist nur CPU)
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.2.1+cu121
+torchvision==0.17.1+cu121
+
+# Diffusion / Transformer-Stack (Versionen aus requirements.txt)
+diffusers==0.31.0
+transformers==4.46.2
+accelerate==1.0.1
+huggingface-hub==0.26.2
+tokenizers==0.20.3
+safetensors==0.4.5
+
+# Hilfsbibliotheken
+einops==0.8.0
+omegaconf==2.3.0
+opencv-python==4.10.0.84
+pillow==10.4.0
+numpy==1.24.3
+imageio==2.19.3
+imageio-ffmpeg==0.4.7
+tqdm==4.67.0
+packaging
+
+# Optional, nur fuer Training:
+# decord==0.6.0          # Video-Laden im Trainings-Dataloader
+# xformers               # speichereffiziente Attention (passende Version zu torch 2.2.1 waehlen)
+# bitsandbytes           # nur bei use_8bit_adam: True

@@ -1,0 +1,7 @@
+# Vortrainierte Gewichte (ca. 4,4 GB, nicht ins Repo committen)
+Pretrained Weights/
+
+# Python-Caches und Laufzeit-Artefakte
+__pycache__/
+*.log
+VidSketch/results/

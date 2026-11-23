@@ -132,6 +132,8 @@ def main():
     pretrained_model_path = args.pretrain_weight
     my_model_path = args.weight
     unet = UNet3DConditionModel.from_pretrained('/'.join(my_model_path.split('/')[:-1]), subfolder=my_model_path.split('/')[-1], torch_dtype=torch.float16).to('cuda')
+    # Attention in Teilschritten berechnen: spart VRAM (8 GB GPU), Ergebnis bleibt gleich, nur langsamer
+    unet.set_attention_slice("max")
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer", torch_dtype=torch.float16)
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder", torch_dtype=torch.float16).to('cuda')
     
@@ -149,7 +151,7 @@ def main():
     unet.requires_grad_(False)
     generator = torch.Generator(device='cuda')
     
-    adapter_name = "/data/jianglifan/TencentARC/t2iadapter_sketch_sd15v2"
+    adapter_name = "TencentARC/t2iadapter_sketch_sd15v2"
     adapter = T2IAdapter.from_pretrained(adapter_name, torch_dtype=torch.float16).to('cuda')
     
     pipe = VidSketch(vae=vae, text_encoder=text_encoder, 
@@ -200,8 +202,9 @@ def main():
     #用T2I生成好的首帧图像的文件夹路径
     img_fold_path = args.image_path
     #生成视频的保存文件夹地址
-    output_folder = args.output_path
-    
+    output_folder = args.output_path or args.output
+    os.makedirs(output_folder, exist_ok=True)
+
     for img_path in sorted(os.listdir(img_fold_path)):
         
         full_img_path = os.path.join(img_fold_path, img_path)

@@ -78,7 +78,7 @@ Make sure you have the necessary files downloaded and set up before running any 
 ## Get Started
 ### 1. Training
 ```bash
-CUDA_VISIBLE_DEVICES=X python train_vidsketch.py --config configs/candle.yaml
+CUDA_VISIBLE_DEVICES=X python train_vidsketch.py --config configs/candles.yaml
 ```
 
 ### 2. Inference
